@@ -8,7 +8,6 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_NAME: str
 
-
     @property
     def DATABASE_URL_asyncpg(self):
         """Url для подключения к бд"""
