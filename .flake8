@@ -1,0 +1,31 @@
+[flake8]
+max-line-length = 120
+
+# Игнорируемые ошибки для Django
+ignore =
+    # E203 - пробел перед ':' (конфликт с black)
+    E203,
+    # W503 - перенос строки перед бинарным оператором
+    W503,
+    # E501 - слишком длинная строка (управляется max-line-length)
+    E501,
+    # Для manage.py
+    E402,
+    # Для миграций Django
+    E501,E722,W503,W504
+
+# Исключаемые директории
+exclude =
+    .git,
+    __pycache__,
+    migrations/,
+    *.pyc,
+    env/,
+    venv/,
+    .venv/,
+    .env,
+    .env.example
+    .env.*.example
+
+# Включаемые файлы
+filename = *.py
