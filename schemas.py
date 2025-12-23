@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from decimal import Decimal
 from enum import Enum
 import uuid
@@ -27,13 +27,15 @@ class OperationRequest(BaseModel):
         description="Сумма операции (должна быть > 0)"
     )
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
             "example": {
                 "operation_type": "DEPOSIT",
-                "amount": 1000.00
+                "amount": 1000.0
             }
         }
+    )
 
 
 class TransactionResponse(BaseModel):
@@ -47,8 +49,9 @@ class TransactionResponse(BaseModel):
     status: TransactionStatus
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(
+        from_attributes=True
+    )
 
 
 class BalanceResponse(BaseModel):
