@@ -1,8 +1,7 @@
-from pydantic import BaseModel, Field, ConfigDict
+from typing import Annotated
+from pydantic import BaseModel, Field
 from decimal import Decimal
 from enum import Enum
-import uuid
-from datetime import datetime
 
 
 class OperationType(str, Enum):
@@ -21,37 +20,7 @@ class OperationRequest(BaseModel):
     Запрос на операцию с кошельком
     """
     operation_type: OperationType
-    amount: Decimal = Field(
-        gt=0,
-        le=1000000000,
-        description="Сумма операции (должна быть > 0)"
-    )
-
-    model_config = ConfigDict(
-        from_attributes=True,
-        json_schema_extra={
-            "example": {
-                "operation_type": "DEPOSIT",
-                "amount": 1000.0
-            }
-        }
-    )
-
-
-class TransactionResponse(BaseModel):
-    """
-    Ответ с информацией о транзакции
-    """
-    id: uuid.UUID
-    wallet_id: uuid.UUID
-    operation_type: OperationType
-    amount: Decimal
-    status: TransactionStatus
-    created_at: datetime
-
-    model_config = ConfigDict(
-        from_attributes=True
-    )
+    amount: Annotated[Decimal, Field(gt=0, description="Сумма операции должна быть больше 0" )]
 
 
 class BalanceResponse(BaseModel):
