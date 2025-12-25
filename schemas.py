@@ -1,5 +1,5 @@
 from typing import Annotated
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from decimal import Decimal
 from enum import Enum
 
@@ -21,6 +21,10 @@ class OperationRequest(BaseModel):
     """
     operation_type: OperationType
     amount: Annotated[Decimal, Field(gt=0, description="Сумма операции должна быть больше 0" )]
+
+    model_config = ConfigDict(
+        extra='forbid'
+    )
 
 
 class BalanceResponse(BaseModel):
