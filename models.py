@@ -24,7 +24,6 @@ class Wallet(Base):
 
     balance: Mapped[Decimal] = mapped_column(
         Numeric(15, 2),
-        nullable=False,
         default=Decimal('0.00'),
     )
 
@@ -69,33 +68,20 @@ class Transaction(Base):
         default=uuid.uuid4,
         index=True
     )
-
     wallet_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("wallets.id", ondelete="CASCADE"),
-        nullable=False
     )
-
     wallet: Mapped[Wallet] = relationship(
         "Wallet",
         back_populates="transactions",
         lazy="selectin"
     )
 
-    operation_type: Mapped[OperationType] = mapped_column(
-        SA_Enum(OperationType),
-        nullable=False
-    )
+    operation_type: Mapped[OperationType]
 
-    amount: Mapped[Decimal] = mapped_column(
-        Numeric(15, 2),
-        nullable=False
-    )
+    amount: Mapped[Decimal] = mapped_column(Numeric(15, 2))
 
-    status: Mapped[TransactionStatus] = mapped_column(
-        SA_Enum(TransactionStatus),
-        default=TransactionStatus.PENDING,
-        nullable=False
-    )
+    status: Mapped[TransactionStatus] = mapped_column(default=TransactionStatus.PENDING)
 
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True),
